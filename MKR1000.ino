@@ -12,7 +12,7 @@ String contentType = "application/x-www-form-urlencoded";
 // Firewall might block the device. If so, de-activated the firewall
 char ssid[] = "";          // "ssid of Wifi (the name)"
 char pass[] = "";          // "wifi password"
-char serverAddress[] = ""; // "server IP address" //This address can be automatically change over time so needs to be confirmed//
+char serverAddress[] = ""; // "server IP address". This address changes automatically over time so needs check
 int port = 80; 
 WiFiClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, port);
@@ -21,6 +21,7 @@ int status = WL_IDLE_STATUS;
 String response;
 int statusCode = 0;
 int count = 0;
+
 void setup() {
   Serial.begin(115200);
   Wire.begin();
@@ -32,15 +33,14 @@ void setup() {
     // Connect to WPA/WPA2 network:
     status = WiFi.begin(ssid, pass);
   }
-  // print the SSID of the network you're attached to:
+  // Print the SSID of the network you're attached to as well as your WiFi shield's IP address
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
-  // print your WiFi shield's IP address:
   IPAddress ip = WiFi.localIP();
   Serial.print("IP Address: ");
   Serial.println(ip);
 
-  //clearing the database from previous values
+  // Clearing the database from previous values
   Serial.println("Clearing Data");
   client.post("/project/services/serviceDeleteDB.php", contentType, "");
   delay(500);
@@ -51,15 +51,16 @@ void setup() {
   Serial.println(statusCode);
   Serial.print("response: ");
   Serial.println(response);
-  
 }
+
 void loop() {
   mpu6050.update();
   Serial.print("Current: ");
   Serial.println(millis());
 
-  //Buffering starts
-  //The buffering happens in four arrays of length 6 per each. Depending on the generation data rate, the length can be varies. (MPU's buffer size: 1024 bytes)
+  // Buffering starts
+  /* The buffering happens in four arrays with length of 6.
+  Depending on the data rate generation, the length can vary. (MPU's buffer size: 1024 bytes) */
   String values  = "{\"size\":[6],\"data\":[";
   String values1 = "{\"size\":[6],\"data\":[";
   String values2 = "{\"size\":[6],\"data\":[";
@@ -116,9 +117,8 @@ void loop() {
       values3 += String(mpu6050.getGyroZ()) + ",";
     delay(10);
   }
-  //end of buffering
-
-  //POST of data
+  
+  // POST of the data
   String contentType = "application/x-www-form-urlencoded";
   String postData  = "arr=" + String(values); 
   String postData1 = "arr=" + String(values1);
@@ -130,9 +130,9 @@ void loop() {
   Serial.println(postData2);
   Serial.println(postData3);
 
-  //the POST starts
+  // POST starts
   client.post("/project/services/serviceJson.php", contentType, postData);
-  //delay(500);
+  delay(500);
   Serial.println("1st");
   statusCode = client.responseStatusCode();
   response = client.responseBody();
@@ -141,7 +141,7 @@ void loop() {
   Serial.print("response: ");
   Serial.println(response);
   client.post("/project/services/serviceJson.php", contentType, postData1);
-  //delay(500);
+  delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
   Serial.print("Status code: ");
@@ -151,7 +151,7 @@ void loop() {
   Serial.print("Previous: ");
   Serial.println("2nd");
   client.post("/project/services/serviceJson.php", contentType, postData2);
-  //delay(500);
+  delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
   Serial.print("Status code: ");
@@ -161,7 +161,7 @@ void loop() {
   Serial.print("Previous: ");
   Serial.println("3rd");
   client.post("/project/services/serviceJson.php", contentType, postData3);
-  //delay(500);
+  delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
   Serial.print("Status code: ");
@@ -170,7 +170,5 @@ void loop() {
   Serial.println(response);
   Serial.print("Previous: ");
   Serial.println("4th");
-  //POST ends
-  //delay(5000);
+  delay(5000);
 }
-
