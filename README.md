@@ -14,3 +14,5 @@ The visualization contains the accelerations and gyros that occurs in all axis a
 The communication protocol between the microcontroller and the sensors is the I2C bus protocol.
 The communication protocol between the microcontroller and the access point is the IEEE 802.11 (WiFi) protocol.
 The power supply for the microcontroller (Arduino MKR1000) is a 1400mAh LiPo battery.
+
+Regarding the interface for the visualization, the back-end is written in PHP and the front-end in JavaScript and HTML/CSS (Bootstrap).
