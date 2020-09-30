@@ -8,5 +8,9 @@ Chunks of data are stored in a FIFO buffer in the sensors, and when a sufficient
 
 - The data is stored in a database and the user can export a CSV file.
 
-- The interface of the app where the acquired data, is visualized in real-time.
+- The interface of the app where the acquired data is visualized in real-time.
 The visualization contains the accelerations and gyros that occurs in all axis and are captured from the sensors.
+
+The communication protocol between the microcontroller and the sensors is the I2C bus protocol.
+The communication protocol between the microcontroller and the access point is the IEEE 802.11 (WiFi) protocol.
+The power supply for the microcontroller (Arduino MKR1000) is a 1400mAh LiPo battery.
