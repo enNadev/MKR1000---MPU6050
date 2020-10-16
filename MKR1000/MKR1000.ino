@@ -42,7 +42,7 @@ void setup() {
 
   // Clearing the database from previous values
   Serial.println("Clearing Data");
-  client.post("/project/services/serviceDeleteDB.php", contentType, "");
+  client.post("../visualization/services/serviceDeleteDB.php", contentType, "");
   delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
@@ -131,7 +131,7 @@ void loop() {
   Serial.println(postData3);
 
   // POST starts
-  client.post("/project/services/serviceJson.php", contentType, postData);
+  client.post("../visualization/services/serviceJson.php", contentType, postData);
   delay(500);
   Serial.println("1st");
   statusCode = client.responseStatusCode();
@@ -140,7 +140,7 @@ void loop() {
   Serial.println(statusCode);
   Serial.print("response: ");
   Serial.println(response);
-  client.post("/project/services/serviceJson.php", contentType, postData1);
+  client.post("../visualization/services/serviceJson.php", contentType, postData1);
   delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
@@ -150,7 +150,7 @@ void loop() {
   Serial.println(response);
   Serial.print("Previous: ");
   Serial.println("2nd");
-  client.post("/project/services/serviceJson.php", contentType, postData2);
+  client.post("../visualization/services/serviceJson.php", contentType, postData2);
   delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
@@ -160,7 +160,7 @@ void loop() {
   Serial.println(response);
   Serial.print("Previous: ");
   Serial.println("3rd");
-  client.post("/project/services/serviceJson.php", contentType, postData3);
+  client.post("../visualization/services/serviceJson.php", contentType, postData3);
   delay(500);
   statusCode = client.responseStatusCode();
   response = client.responseBody();
